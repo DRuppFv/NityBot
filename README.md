@@ -1,4 +1,4 @@
-# GitBot
-A bot which interacts with the GitHub API.
+# NityBot
+Uh... A bot.
 
-## ReadMe is still being worked on
+## ReadMe is still being worked on.
