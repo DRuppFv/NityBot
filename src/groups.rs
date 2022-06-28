@@ -1,6 +1,6 @@
-use crate::commands::general::{gitstatus::GITSTATUS_COMMAND};
+use crate::commands::general::{commandone::COMMANDONE_COMMAND};
 use serenity::framework::standard::macros::group;
 
 #[group]
-#[commands(gitstatus)]
+#[commands(commandone)]
 struct General;
