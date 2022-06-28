@@ -1,18 +1,19 @@
 [package]
-name = "NityBot"
+name = "nity_bot"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenv = "0.15.0"
 
 [dependencies.serenity]
-git = "https://github.com/DRuppFv/serenity"
+version = "0.11.2"
 default-features = false
-features = []
+features = ["client", "cache", "gateway", "rustls_backend", "model", "framework", "standard_framework"]
 
 [dependencies.tokio]
-git = "https://github.com/DRuppFv/tokio"
+version = "1.15.0"
 default-features = false
-features = []
+features = ["macros", "rt-multi-thread", "signal"]
