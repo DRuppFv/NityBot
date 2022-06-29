@@ -17,3 +17,8 @@ features = ["client", "cache", "gateway", "rustls_backend", "model", "framework"
 version = "1.15.0"
 default-features = false
 features = ["macros", "rt-multi-thread", "signal"]
+
+[dependencies.reqwest]
+version = "0.11.11"
+default-features = false
+features = ["blocking"]
