@@ -1,6 +1,6 @@
-use crate::commands::general::{commandone::COMMANDONE_COMMAND};
+use crate::commands::general::{wiki::WIKI_COMMAND};
 use serenity::framework::standard::macros::group;
 
 #[group]
-#[commands(commandone)]
+#[commands(wiki)]
 struct General;

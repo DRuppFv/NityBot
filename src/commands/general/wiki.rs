@@ -1,6 +1,6 @@
 use serenity::framework::standard::{macros::command, CommandResult};
 
 #[command]
-async fn commandone() -> CommandResult {
+async fn wiki() -> CommandResult {
     Ok(())
 }

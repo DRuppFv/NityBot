@@ -1,1 +1,1 @@
-pub mod commandone;
+pub mod wiki;
