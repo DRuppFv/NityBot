@@ -2,7 +2,7 @@
 
 mod commands;
 mod groups;
-mod handler;
+mod handler
 mod utils;
 
 #[tokio::main]
