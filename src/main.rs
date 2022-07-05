@@ -25,7 +25,7 @@ async fn main() {
 
   let framework = StandardFramework::new()
   .configure(|c| {
-      c.with_whitespace(true).on_mention(Some(bot_id)).prefix("~").delimiters(vec![", ", ","])
+      c.with_whitespace(true).on_mention(Some(bot_id)).prefix("!f").delimiters(vec![", ", ","])
   })
   .group(&GENERAL_GROUP);
 
