@@ -1,20 +1,17 @@
-use serenity::framework::standard::{macros::command, CommandResult};
-use serenity::client::Context;
-use serenity::framework::standard::Args;
-use serenity::model::channel::Message;
+use super::*;
 
-
-// refazer usando recursos mais inteligentes
 #[command]
 async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
-    let mut arg = &msg.content;
+    handle_result(msg, &ctx.http, async move {
+        let command = commands::wiki();
+        let guild_id = *msg.guild_id.unwrap().as_u64();
+        let prefix = get_prefix(ctx.data.clone(), guild_id).await;
 
-    if arg.contains("!f wiki") {
-        arg.replace("!f wiki", "");
-    } else if arg.contains("!fwiki") {  
-        arg.replace("!fwiki", "");
-    }
+        let matches = command.try_get_matches_from(msg.content.to_clap_command(prefix))?;
 
-    let wiki_url = format!("https://pt.wikipedia.org/wiki/{}", arg.replace(" ", "_"));
+        Ok(())
+    })
+    .await?;
+
     Ok(())
 }
