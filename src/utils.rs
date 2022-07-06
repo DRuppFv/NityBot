@@ -4,7 +4,6 @@ use std::sync::Arc;
 use serenity::framework::standard::CommandResult;
 use serenity::http::Http;
 use serenity::model::channel::Message;
-use serenity::prelude::{RwLock, TypeMap};
 
 pub async fn handle_result(message: &Message, http: &Arc<Http>, res: impl Future<Output = CommandResult>) -> CommandResult {
     match res.await {
