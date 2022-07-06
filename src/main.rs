@@ -20,7 +20,7 @@ use dotenv::from_path;
 
 #[tokio::main]
 async fn main() {
-  let path = Path::new("./.env.token");
+  let path = Path::new(".env.discord");
   match from_path(path) {
     Ok(x) => x,
     Err(err) => println!("dotenv: {:?}", err)
