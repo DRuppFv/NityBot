@@ -6,7 +6,7 @@ impl ToClapCommand for String {
     fn to_clap_command(&self, prefix: String) -> Vec<String> {
         self.replace(&prefix, "")
             .trim()
-            .split(' ')
+            .split(" ")
             .map(ToString::to_string)
             .collect()
     }
