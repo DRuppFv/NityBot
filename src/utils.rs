@@ -12,6 +12,7 @@ pub async fn handle_result(message: &Message, http: &Arc<Http>, res: impl Future
             message
                 .reply_ping(http, "algo deu errado")
                 .await?;
+                println!("{}", why);
             Err(why)
         }
     }
