@@ -5,10 +5,9 @@ mod groups;
 mod primitives;
 
 use handler::Handler;
-use groups::{GENERAL_GROUP};
+use groups::GENERAL_GROUP;
 
 use std::collections::HashSet;
-use std::path::Path;
 use std::env;
 
 use serenity::framework::StandardFramework;
@@ -16,14 +15,13 @@ use serenity::http::Http;
 use serenity::prelude::*;
 use serenity::Client;
 
-use dotenv::from_path;
+use dotenv::dotenv;
 
 #[tokio::main]
 async fn main() {
-  let path = Path::new("./.env.token");
-  match from_path(path) {
+  match dotenv() {
     Ok(x) => x,
-    Err(err) => println!("dotenv: {:?}", err)
+    Err(err) => panic!("dotenv: {:?}", err)
   };
 
   let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
