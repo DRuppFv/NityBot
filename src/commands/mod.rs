@@ -8,6 +8,10 @@ pub use serenity::{
     model::{channel::Message, id::UserId, prelude::MessageId},
 };
 
+pub use wikipedia::{
+    Wikipedia
+};
+
 pub use tokio::time::sleep;
 
 pub use crate::{
