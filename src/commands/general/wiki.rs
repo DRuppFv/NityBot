@@ -10,7 +10,7 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
 
         let wiki = matches.value_of("wiki_subject").unwrap().replacen(" ", "", 1);
 
-        let wikipe = wikipedia::Wikipedia {
+        let wiki_client = wikipedia::Wikipedia {
             client: <wikipedia::http::default::Client>::default(),
             pre_language_url: String::from("https://"),
             post_language_url: String::from(".wikipedia.org/w/api.php"),
@@ -21,7 +21,7 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
             categories_results: String::from("min")
         };
 
-        let result = &wikipe.search(&wiki).unwrap()[0];
+        let result = &wiki_client.search(&wiki).unwrap()[0];
 
         msg.reply(
             ctx, format!("https://pt.wikipedia.org/wiki/{}", result.replace(" ", "_"))
