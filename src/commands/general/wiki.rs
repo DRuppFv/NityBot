@@ -21,11 +21,20 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
             categories_results: String::from("min")
         };
 
-        let result = &wiki_client.search(&wiki).unwrap()[0];
-
-        msg.reply(
-            ctx, format!("https://pt.wikipedia.org/wiki/{}", result.replace(" ", "_"))
-        ).await?;
+        match &wiki_client.search(&wiki) {
+            Ok(x) => {
+                if x.len() > 0 {
+                    msg.reply(
+                        ctx, format!("https://pt.wikipedia.org/wiki/{}", x[0].replace(" ", "_"))
+                    ).await?;
+                } else {
+                    msg.reply_ping(ctx, "Nenhum resultado foi encontrado.").await?;
+                }
+            },
+            Err(_) => { 
+                msg.reply_ping(ctx, "É necessário um argumento para esse comando.").await?; 
+            }
+        }
 
         Ok(())
     })
