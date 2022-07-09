@@ -9,10 +9,7 @@ pub async fn handle_result(message: &Message, http: &Arc<Http>, res: impl Future
     match res.await {
         Ok(_) => Ok(()),
         Err(why) => {
-            message
-                .reply_ping(http, "algo deu errado")
-                .await?;
-                println!("{}", why);
+                message.reply_ping(http, "Algo deu errado.").await?;
             Err(why)
         }
     }
