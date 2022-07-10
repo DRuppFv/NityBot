@@ -1036,6 +1036,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "dotenv",
+ "parkour",
  "reqwest 0.11.11",
  "rustbreak",
  "serenity",
@@ -1147,6 +1148,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "21326818e99cfe6ce1e524c2a805c189a99b5ae555a35d19f9a284b427d86afa"
 
 [[package]]
+name = "palex"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "420d01ba66e6a157835f1b2a84ec34094b061e9cd98d5d3608de42156dd4ae8c"
+
+[[package]]
 name = "parking_lot"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1193,6 +1200,27 @@ dependencies = [
  "redox_syscall 0.2.13",
  "smallvec 1.9.0",
  "windows-sys",
+]
+
+[[package]]
+name = "parkour"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "13b37a7085fa5565603aa94fe55ecb8d68c94bc062cea15095dab765619b963e"
+dependencies = [
+ "palex",
+ "parkour_derive",
+]
+
+[[package]]
+name = "parkour_derive"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e59ca8d8a334cbdf8ed519475ab8e0f3d0eafb3850b2a53a596c65809454f139"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

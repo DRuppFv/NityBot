@@ -1,17 +1,22 @@
-use std::future::Future;
-use std::sync::Arc;
+use serenity::{
+    client::Context,
+    framework::standard::{macros::hook, CommandError},
+    model::channel::Message,
+};
 
-use serenity::framework::standard::CommandResult;
-use serenity::http::Http;
-use serenity::model::channel::Message;
+use crate::primitives::ToCodeBlock;
 
-pub async fn handle_result(message: &Message, http: &Arc<Http>, res: impl Future<Output = CommandResult>) -> CommandResult {
-    match res.await {
-        Ok(_) => Ok(()),
-        Err(why) => {
-                message.reply_ping(http, "Algo deu errado.").await?;
-            Err(why)
-        }
+#[hook]
+pub async fn handle_result(
+    ctx: &Context,
+    message: &Message,
+    _: &str,
+    result: Result<(), CommandError>,
+) {
+    if let Err(why) = result {
+        message.reply_ping(&ctx.http, why.to_string().to_code_block("yml"))
+        .await
+        .ok();
     }
 }
 
