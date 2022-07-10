@@ -5,6 +5,7 @@ mod groups;
 mod primitives;
 
 use handler::Handler;
+use utils::handle_result;
 use groups::GENERAL_GROUP;
 
 use std::collections::HashSet;
@@ -48,6 +49,7 @@ let framework = StandardFramework::new()
                    .prefix("!f")
                    .delimiters(vec![", ", ",", " "])
                    .owners(owners))
+        .after(handle_result)
         .group(&GENERAL_GROUP);
 
 let intents = GatewayIntents::GUILD_MESSAGES
