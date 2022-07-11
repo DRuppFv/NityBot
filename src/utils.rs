@@ -1,10 +1,11 @@
+use clap::ErrorKind;
+use clap::Error;
+
 use serenity::{
     client::Context,
     framework::standard::{macros::hook, CommandError},
     model::channel::Message,
 };
-
-use crate::primitives::ToCodeBlock;
 
 #[hook]
 pub async fn handle_result(
@@ -13,10 +14,15 @@ pub async fn handle_result(
     _: &str,
     result: Result<(), CommandError>,
 ) {
-    if let Err(why) = result {
-        message.reply_ping(&ctx.http, why.to_string().to_code_block("yml"))
-        .await
-        .ok();
+    if let Err(_) = result {
+        match result.unwrap_err().downcast_ref::<Error>().unwrap().kind() {
+            ErrorKind::MissingRequiredArgument => {
+                message.reply(&ctx.http,"...").await.ok();
+            },
+            _ => {
+                message.reply(&ctx.http,"Undefined error.").await.ok();
+            }
+        }
     }
 }
 

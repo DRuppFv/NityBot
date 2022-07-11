@@ -1,3 +1,6 @@
+pub const DEFAULT_LANGUAGE: &str = "en";
+pub const DEFAULT_LANGUAGE_NAME: &str = "English";
+
 pub trait ToClapCommand {
     fn to_clap_command(&self, prefix: String) -> Vec<String>;
 }
@@ -38,5 +41,14 @@ pub mod commands {
                         .index(1)
                         .help("The specific thing.")
                         ])
+    }
+
+    pub fn wikilang() -> Command<'static> {
+        Command::new("NAME: wiki")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Changes the language of the wiki search.")
     }
 }
