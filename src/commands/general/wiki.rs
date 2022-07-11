@@ -1,7 +1,5 @@
 use super::*;
 
-
-
 #[command]
 async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     msg.react(&ctx.http, '⏳').await?;
@@ -32,7 +30,7 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         };
     }
     if string != "" {
-    vec.push(string);
+        vec.push(string);
     }
 
     println!("{:?}", vec);
@@ -53,5 +51,5 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     ).await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
     
-  Ok(())
+    Ok(())
 }
