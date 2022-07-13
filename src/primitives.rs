@@ -1,5 +1,3 @@
-pub const DEFAULT_LANGUAGE: &str = "en";
-pub const DEFAULT_LANGUAGE_NAME: &str = "English";
 
 pub trait ToClapCommand {
     fn to_clap_command(&self, prefix: String) -> Vec<String>;
@@ -51,4 +49,9 @@ pub mod commands {
             .disable_version_flag(true)
             .about("\nABOUT: Changes the language of the wiki search.")
     }
+}
+
+pub mod languages {
+    pub const ENGLISH_LANGUAGE: &str = "en";
+    pub const PORTUGUESE_LANGUAGE: &str = "pt";
 }
