@@ -54,6 +54,8 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
                             .execute(&database)
                             .await
                             .unwrap();
+
+                            msg.reply_ping(ctx, "Now, the language is 🇺🇸|English!").await?;
                         }
                     }
                 },
@@ -66,6 +68,8 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
                             .execute(&database)
                             .await
                             .unwrap();
+
+                            msg.reply_ping(ctx, "Now, the language is 🇧🇷|Portuguese!").await?;
                         },
                         Err(_) => {
                             sqlx::query!("INSERT INTO serverlang (servid, lang) VALUES (?, ?)",
@@ -73,6 +77,8 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
                             .execute(&database)
                             .await
                             .unwrap();
+
+                            msg.reply_ping(ctx, "Now, the language is 🇧🇷|Portuguese!").await?;
                         }
                     }
                 },
