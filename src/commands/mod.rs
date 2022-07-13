@@ -5,7 +5,7 @@ use std::time::Duration;
 pub use wikipedia::Wikipedia;
 
 pub use crate::{
-    primitives::{commands, languages, ToClapCommand},
+    primitives::{commands, ToClapCommand, DEFAULT_LANGUAGE},
     utils::handle_result,
 };
 

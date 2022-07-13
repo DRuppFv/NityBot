@@ -1,4 +1,6 @@
 
+pub const DEFAULT_LANGUAGE: &str = "en";
+
 pub trait ToClapCommand {
     fn to_clap_command(&self, prefix: String) -> Vec<String>;
 }
@@ -51,7 +53,3 @@ pub mod commands {
     }
 }
 
-pub mod languages {
-    pub const ENGLISH_LANGUAGE: &str = "en";
-    pub const PORTUGUESE_LANGUAGE: &str = "pt";
-}
