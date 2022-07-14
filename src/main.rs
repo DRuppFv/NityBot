@@ -3,8 +3,9 @@ mod handler;
 mod utils;
 mod groups;
 mod primitives;
+mod api;
 
-use handler::Handler;
+use commands::slash::Handler;
 use utils::handle_result;
 use groups::GENERAL_GROUP;
 

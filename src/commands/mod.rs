@@ -1,4 +1,5 @@
 pub mod general;
+pub mod slash;
 
 use std::time::Duration;
 
