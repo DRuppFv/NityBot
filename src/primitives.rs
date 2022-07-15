@@ -1,4 +1,3 @@
-
 pub const DEFAULT_LANGUAGE: &str = "en";
 
 pub trait ToClapCommand {
@@ -44,16 +43,28 @@ pub mod commands {
     }
 
     pub fn wikilang() -> Command<'static> {
-        Command::new("NAME: wiki")
+        Command::new("NAME: wikilang")
             .disable_help_flag(true)
             .disable_help_subcommand(true)
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Changes the language of the wiki search.")
-            .args([
-                Arg::new("show")
-                .help("Shows the current language.")
-            ])
+                .args([
+                    Arg::new("language")
+                    .required(true)
+                    .takes_value(true)
+                    .index(1)
+                    .help("The language to be set."),
+                ])
+    }
+
+    pub fn langlist() -> Command<'static> {
+        Command::new("NAME: langlist")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Shows a list of the avaible languages.")
     }
 }
 
