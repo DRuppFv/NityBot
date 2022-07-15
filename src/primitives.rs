@@ -50,6 +50,10 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Changes the language of the wiki search.")
+            .args([
+                Arg::new("show")
+                .help("Shows the current language.")
+            ])
     }
 }
 

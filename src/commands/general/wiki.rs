@@ -5,7 +5,6 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     msg.react(&ctx.http, '⏳').await?;
 
     let command = commands::wiki();
-
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
     let database = sqlx::sqlite::SqlitePoolOptions::new().max_connections(5)
