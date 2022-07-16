@@ -1,7 +1,5 @@
 pub mod general;
 
-use std::time::Duration;
-
 pub use wikipedia::Wikipedia;
 
 pub use crate::{

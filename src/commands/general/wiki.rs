@@ -63,11 +63,31 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         return Ok(())
     }
 
-    msg.reply(
-        ctx, format!("https://{}.wikipedia.org/wiki/{}", serv_lang,
-        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"))
+    let wiki_answer = msg.reply(
+        ctx, format!("https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.", serv_lang,
+        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"), '❌')
     ).await?;
+    wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
+
+    loop {
+        if let Some(reaction) = &wiki_answer
+        .await_reaction(&ctx)
+        .author_id(msg.author.id)
+        .await {
+            let emoji = &reaction.as_inner_ref().emoji;
+
+            let _ = match emoji.as_data().as_str() {
+                "❌" => {
+                    wiki_answer.delete(&ctx.http).await?;
+                    break
+                },
+                _ => {
+                    
+                }
+            };
+        }
+    }
     
     Ok(())
 }

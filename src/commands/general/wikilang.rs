@@ -48,10 +48,10 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
         if there_is {
             let language_str = match new_language {
                 "en" => {
-                    "The current language is 🇺🇸|English!"
+                    "The current language is 🇺🇸 | English!"
                 },
                 "pt" => {
-                    "The current language is 🇧🇷|Portuguese!"
+                    "The current language is 🇧🇷 | Portuguese!"
                 },
                 _ => {
                     ""
