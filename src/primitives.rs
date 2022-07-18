@@ -48,7 +48,7 @@ pub mod commands {
             .disable_help_subcommand(true)
             .disable_colored_help(true)
             .disable_version_flag(true)
-            .about("\nABOUT: Changes the language of the wiki search.")
+            .about("\nABOUT: Sets a language to a server.")
                 .args([
                     Arg::new("language")
                     .required(true)
@@ -65,6 +65,15 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Shows a list of the avaible languages.")
+    }
+
+    pub fn wikihelp() -> Command<'static> {
+        Command::new("NAME: wikihelp")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Shows a list of NityBot commands")
     }
 }
 
