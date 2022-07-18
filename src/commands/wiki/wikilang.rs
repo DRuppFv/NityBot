@@ -33,7 +33,6 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     if new_language == serv_lang {
         msg.reply_ping(&ctx.http, "❕ | That is already the current language!").await?;
 
-        
     } else {
         let mut there_is: bool = false;
         for lang in ["en", "pt"] {
