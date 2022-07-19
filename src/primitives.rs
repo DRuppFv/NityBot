@@ -42,8 +42,37 @@ pub mod commands {
                         ])
     }
 
+    pub fn wikihelp() -> Command<'static> {
+        Command::new("NAME: wikihelp")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Shows a list of NityBot commands")
+    }
+
     pub fn wikilang() -> Command<'static> {
         Command::new("NAME: wikilang")
+        .disable_help_flag(true)
+        .disable_help_subcommand(true)
+        .disable_colored_help(true)
+        .disable_version_flag(true)
+        .about("\nABOUT: Shows a list of NityBot commands")
+            .args([
+                Arg::new("language")
+                .required(true)
+                .takes_value(true)
+                .index(1)
+                .help("The language which the wikiclient will use."),
+                Arg::new("wiki")
+                .required(true)
+                .index(2)
+                .help("The specific thing.")
+            ])
+    }
+
+    pub fn lang() -> Command<'static> {
+        Command::new("NAME: lang")
             .disable_help_flag(true)
             .disable_help_subcommand(true)
             .disable_colored_help(true)
@@ -65,15 +94,6 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Shows a list of the avaible languages.")
-    }
-
-    pub fn wikihelp() -> Command<'static> {
-        Command::new("NAME: wikihelp")
-            .disable_help_flag(true)
-            .disable_help_subcommand(true)
-            .disable_colored_help(true)
-            .disable_version_flag(true)
-            .about("\nABOUT: Shows a list of NityBot commands")
     }
 }
 

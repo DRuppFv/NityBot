@@ -4,7 +4,7 @@ use super::*;
 #[only_in(guilds)]
 #[required_permissions("MANAGE_GUILD")]
 async fn lang(ctx: &Context, msg: &Message) -> CommandResult {
-    let command = commands::wikilang();
+    let command = commands::lang();
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
     let matches = command.try_get_matches_from(msg.content.to_clap_command(
