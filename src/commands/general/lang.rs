@@ -3,7 +3,7 @@ use super::*;
 #[command]
 #[only_in(guilds)]
 #[required_permissions("MANAGE_GUILD")]
-async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
+async fn lang(ctx: &Context, msg: &Message) -> CommandResult {
     let command = commands::wikilang();
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
