@@ -5,7 +5,8 @@ use crate::commands::general::{
 
 use crate::commands::wiki::{
     wiki::WIKI_COMMAND,
-    wikihelp::WIKIHELP_COMMAND,    
+    wikihelp::WIKIHELP_COMMAND,
+    wikilang::WIKILANG_COMMAND,
 };
 
 use serenity::framework::standard::macros::group;
@@ -15,5 +16,5 @@ use serenity::framework::standard::macros::group;
 struct General;
 
 #[group]
-#[commands(wiki, wikihelp)]
+#[commands(wiki, wikihelp, wikilang)]
 struct Wiki;

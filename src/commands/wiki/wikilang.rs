@@ -1,92 +1,90 @@
 use super::*;
 
 #[command]
-async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
+#[only_in(guilds)]
+async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     msg.react(&ctx.http, '⏳').await?;
 
-    let command = commands::wiki();
-    let guild_id = msg.guild_id.unwrap().0 as f64;
+    let command = commands::wikilang();
 
-    let database = sqlx::sqlite::SqlitePoolOptions::new().max_connections(5)
-    .connect_with(
-        sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"),
-    ).await.expect("");
-
-    let try_serv_lang = &sqlx::query!(
-        "SELECT lang FROM serverlang WHERE servid = ?",
-        guild_id,
-    )
-    .fetch_one(&database)
-    .await;
-
-    let serv_lang: &str = if let Ok(x) = try_serv_lang {
-        &x.lang
-    } else {
-        DEFAULT_LANGUAGE
-    };
+    let mut string_lang: String = String::new();
+    for (argnum, arg) in msg.content.replace("!f".clone(), "").trim().split(' ').map(ToString::to_string).enumerate() {
+        if argnum == 1 {
+            string_lang = format!("{}", arg)
+        }
+    }
 
     let mut vec_wiki: Vec<String> = Vec::new();
     let mut string_wiki: String = String::new();
     for (argnum, arg) in msg.content.replace("!f".clone(), "").trim().split(' ').map(ToString::to_string).enumerate() {
-        if argnum != 0 {
-            if argnum == 1 {
+        if argnum > 1 {
+            if argnum == 2 {
                 string_wiki = format!("{}", arg)
             } else {
                 string_wiki = format!("{} {}", string_wiki, arg)
             }
-        }
+        };
     }
     vec_wiki.push("wiki".to_string());
+    vec_wiki.push(string_lang);
     if string_wiki != "" {
         vec_wiki.push(string_wiki);
     }
+    println!("{:?}", vec_wiki);
+    let matches_lang = command.try_get_matches_from(&vec_wiki)?;
 
-    let matches_wiki = command.try_get_matches_from(&vec_wiki)?;
+    let lang = matches_lang.value_of("language").unwrap();
+    let wiki = matches_lang.value_of("wiki").unwrap();
 
-    let wiki = matches_wiki.value_of("wiki").unwrap();
-
+    println!("vec: {:?}, lang: {}, wiki: {}", vec_wiki, lang, wiki);
     let wiki_client = wikipedia::Wikipedia {
         client: <wikipedia::http::default::Client>::default(),
         pre_language_url: String::from("https://"),
         post_language_url: String::from(".wikipedia.org/w/api.php"),
-        language: String::from(serv_lang),
+        language: String::from(lang),
         search_results: 5,
         images_results: String::from("min"),
         links_results: String::from("min"),
-        categories_results: String::from("min")
+        categories_results: String::from("min"),
     };
 
     if &wiki_client.search(&wiki).unwrap().len() == &0 {
         msg.react(&ctx.http, '❔').await?;
         msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
-        return Ok(())
+        return Ok(());
     }
 
-    let wiki_answer = msg.reply(
-        ctx, format!("https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.", serv_lang,
-        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"), '❌')
-    ).await?;
+    let wiki_answer = msg
+        .reply(
+            ctx,
+            format!(
+                "https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.",
+                lang,
+                &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"),
+                '❌'
+            ),
+        )
+        .await?;
     wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
 
     loop {
         if let Some(reaction) = &wiki_answer
-        .await_reaction(&ctx)
-        .author_id(msg.author.id)
-        .await {
+            .await_reaction(&ctx)
+            .author_id(msg.author.id)
+            .await
+        {
             let emoji = &reaction.as_inner_ref().emoji;
 
             let _ = match emoji.as_data().as_str() {
                 "❌" => {
                     wiki_answer.delete(&ctx.http).await?;
-                    break
-                },
-                _ => {
-                    
+                    break;
                 }
+                _ => {}
             };
         }
     }
-    
+
     Ok(())
 }
