@@ -17,10 +17,10 @@ pub async fn handle_result(
     if let Err(_) = result {
         match result.unwrap_err().downcast_ref::<Error>().unwrap().kind() {
             ErrorKind::MissingRequiredArgument => {
-                message.reply(&ctx.http,"...").await.ok();
+                message.reply(&ctx.http,"❕ | Missing required argument!").await.ok();
             },
             _ => {
-                message.reply(&ctx.http,"Undefined error.").await.ok();
+                message.reply(&ctx.http,"❕ | Undefined error. If you are seeing this, please, tell me on https://github.com/DRuppFv/NityBot.").await.ok();
             }
         }
     }
