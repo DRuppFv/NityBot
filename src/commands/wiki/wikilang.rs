@@ -36,7 +36,28 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     let lang = matches_lang.value_of("language").unwrap();
     let wiki = matches_lang.value_of("wiki").unwrap();
 
+<<<<<<< HEAD
     println!("vec: {:?}, lang: {}, wiki: {}", vec_wiki, lang, wiki);
+=======
+<<<<<<< HEAD
+=======
+    let mut there_is: bool = false;
+    for lang in ["en", "pt", "es", "de"] {
+        if language == lang {
+            there_is = true;
+            break;
+        } else {
+            there_is = false
+        };
+    }
+    if !there_is {
+        msg.reply_ping(&ctx.http, "❔ | No language with that abbreviation found.").await?;
+        msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
+        return Ok(());
+    }
+
+>>>>>>> 97427f1 (new language)
+>>>>>>> 2116c58 (new language)
     let wiki_client = wikipedia::Wikipedia {
         client: <wikipedia::http::default::Client>::default(),
         pre_language_url: String::from("https://"),
