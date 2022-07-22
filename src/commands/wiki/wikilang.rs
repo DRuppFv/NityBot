@@ -30,18 +30,32 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     if string_wiki != "" {
         vec_wiki.push(string_wiki);
     }
-    println!("{:?}", vec_wiki);
+    
     let matches_lang = command.try_get_matches_from(&vec_wiki)?;
 
-    let lang = matches_lang.value_of("language").unwrap();
+    let language = matches_lang.value_of("language").unwrap();
     let wiki = matches_lang.value_of("wiki").unwrap();
 
-    println!("vec: {:?}, lang: {}, wiki: {}", vec_wiki, lang, wiki);
+    let mut there_is: bool = false;
+    for lang in ["en", "pt", "es", "de"] {
+        if language == lang {
+            there_is = true;
+            break;
+        } else {
+            there_is = false
+        };
+    }
+    if !there_is {
+        msg.reply_ping(&ctx.http, "❔ | No language with that abbreviation found.").await?;
+        msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
+        return Ok(());
+    }
+
     let wiki_client = wikipedia::Wikipedia {
         client: <wikipedia::http::default::Client>::default(),
         pre_language_url: String::from("https://"),
         post_language_url: String::from(".wikipedia.org/w/api.php"),
-        language: String::from(lang),
+        language: String::from(language),
         search_results: 5,
         images_results: String::from("min"),
         links_results: String::from("min"),
@@ -59,7 +73,7 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
             ctx,
             format!(
                 "https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.",
-                lang,
+                language,
                 &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"),
                 '❌'
             ),
