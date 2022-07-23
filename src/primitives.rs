@@ -39,7 +39,7 @@ pub mod commands {
                         .required(true)
                         .index(1)
                         .help("The specific thing.")
-                        ])
+                ])
     }
 
     pub fn wikihelp() -> Command<'static> {
@@ -53,22 +53,22 @@ pub mod commands {
 
     pub fn wikilang() -> Command<'static> {
         Command::new("NAME: wikilang")
-        .disable_help_flag(true)
-        .disable_help_subcommand(true)
-        .disable_colored_help(true)
-        .disable_version_flag(true)
-        .about("\nABOUT: Shows a list of NityBot commands")
-            .args([
-                Arg::new("language")
-                .required(true)
-                .takes_value(true)
-                .index(1)
-                .help("The language which the wikiclient will use."),
-                Arg::new("wiki")
-                .required(true)
-                .index(2)
-                .help("The specific thing.")
-            ])
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Shows a list of NityBot commands")
+                .args([
+                    Arg::new("language")
+                        .required(true)
+                        .takes_value(true)
+                        .index(1)
+                        .help("The language which the wikiclient will use."),
+                    Arg::new("wiki")
+                        .required(true)
+                        .index(2)
+                        .help("The specific thing.")
+                ])
     }
 
     pub fn lang() -> Command<'static> {
@@ -80,10 +80,10 @@ pub mod commands {
             .about("\nABOUT: Sets a language to a server.")
                 .args([
                     Arg::new("language")
-                    .required(true)
-                    .takes_value(true)
-                    .index(1)
-                    .help("The language to be set."),
+                        .required(true)
+                        .takes_value(true)
+                        .index(1)
+                        .help("The language to be set."),
                 ])
     }
 
