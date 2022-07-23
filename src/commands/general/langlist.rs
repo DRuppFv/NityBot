@@ -49,7 +49,7 @@ async fn langlist(ctx: &Context, msg: &Message) -> CommandResult {
             .fields(vec![
                 ("Avaiable languages:", "🇺🇸 | English - en\n🇧🇷 | Portuguese - pt\n🇪🇸 | Spanish - es\n🇩🇪 | Deutsch - de\n", true),
             ])
-            .footer(|f| f.text("Choose your language with !fwikilang [lang]."))
+            .footer(|f| f.text("Choose your language with !flang [lang]."))
             .colour(Colour::from_rgb(91, 8, 199))           
         })
     })
