@@ -35,7 +35,7 @@ async fn lang(ctx: &Context, msg: &Message) -> CommandResult {
 
     } else {
         let mut there_is: bool = false;
-        for lang in ["en", "pt", "es", "de"] {
+        for lang in ["en", "pt", "es", "de", "it"] {
             if new_language == lang {
                 there_is = true;
                 break;
@@ -57,6 +57,9 @@ async fn lang(ctx: &Context, msg: &Message) -> CommandResult {
                 },
                 "de" => {
                     "The current language is 🇩🇪 | Deutsch"
+                },
+                "it" => {
+                    "The current language is 🇮🇹 | Italian"
                 }
                 _ => {
                     ""
