@@ -44,13 +44,16 @@ async fn langlist(ctx: &Context, msg: &Message) -> CommandResult {
                 },
                 "it" => {
                     "🇮🇹 | Italian"
+                },
+                "fr" => {
+                    "🇫🇷 | French"
                 }
                 _ => {
                     ""
                 }
             })
             .fields(vec![
-                ("Avaiable languages:", "🇺🇸 | English - en\n🇧🇷 | Portuguese - pt\n🇪🇸 | Spanish - es\n🇩🇪 | Deutsch - de\n🇮🇹 | Italian", true),
+                ("Avaiable languages:", "🇺🇸 | English - en\n🇧🇷 | Portuguese - pt\n🇪🇸 | Spanish - es\n🇩🇪 | Deutsch - de\n🇮🇹 | Italian\n🇫🇷 | French\n", true),
             ])
             .footer(|f| f.text("Choose your language with !flang [lang]."))
             .colour(Colour::from_rgb(91, 8, 199))           
