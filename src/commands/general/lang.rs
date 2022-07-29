@@ -67,6 +67,9 @@ async fn lang(ctx: &Context, msg: &Message) -> CommandResult {
                 "ru" => {
                     "The current language is 🇷🇺 | Russian"
                 },
+                "tr" => {
+                    "The current language is 🇹🇷 | Turkish"
+                }
                 _ => {
                     ""
                 },
