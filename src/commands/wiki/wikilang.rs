@@ -37,7 +37,7 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     let wiki = matches_lang.value_of("wiki").unwrap();
 
     let mut there_is: bool = false;
-    for lang in ["en", "pt", "es", "de", "it", "fr", "ru"] {
+    for lang in ["en", "pt", "es", "de", "it", "fr", "ru", "tr"] {
         if language == lang {
             there_is = true;
             break;
