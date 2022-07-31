@@ -33,7 +33,7 @@ pub mod commands {
             .disable_help_subcommand(true)
             .disable_colored_help(true)
             .disable_version_flag(true)
-            .about("\nABOUT: Sends the wiki of some specific thing.")
+            .about("\nABOUT: Sends the wiki of something specific in the current server/guild language.")
                 .args([
                     Arg::new("wiki")
                         .required(true)
@@ -69,6 +69,15 @@ pub mod commands {
                         .index(2)
                         .help("The specific thing.")
                 ])
+    }
+
+    pub fn wikirandom() -> Command<'static> {
+        Command::new("NAME: wikirandom")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Sends a random wiki in the current server/guild language")
     }
 
     pub fn lang() -> Command<'static> {
