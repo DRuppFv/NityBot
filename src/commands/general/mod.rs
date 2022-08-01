@@ -1,3 +1,4 @@
+pub mod help;
 pub mod lang;
 pub mod langlist;
 

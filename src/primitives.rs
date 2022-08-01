@@ -42,8 +42,8 @@ pub mod commands {
                 ])
     }
 
-    pub fn wikihelp() -> Command<'static> {
-        Command::new("NAME: wikihelp")
+    pub fn help() -> Command<'static> {
+        Command::new("NAME: help")
             .disable_help_flag(true)
             .disable_help_subcommand(true)
             .disable_colored_help(true)
@@ -71,8 +71,8 @@ pub mod commands {
                 ])
     }
 
-    pub fn wikirandom() -> Command<'static> {
-        Command::new("NAME: wikirandom")
+    pub fn random() -> Command<'static> {
+        Command::new("NAME: random")
             .disable_help_flag(true)
             .disable_help_subcommand(true)
             .disable_colored_help(true)

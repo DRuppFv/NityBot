@@ -1,4 +1,5 @@
 pub mod general;
+pub mod random;
 pub mod wiki;
 
 pub use wikipedia::Wikipedia;

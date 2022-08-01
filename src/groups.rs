@@ -1,21 +1,28 @@
 use crate::commands::general::{
+    help::HELP_COMMAND,
     lang::LANG_COMMAND,
     langlist::LANGLIST_COMMAND,
 };
 
+use crate::commands::random::{
+    random::RANDOM_COMMAND,
+};
+
 use crate::commands::wiki::{
     wiki::WIKI_COMMAND,
-    wikihelp::WIKIHELP_COMMAND,
     wikilang::WIKILANG_COMMAND,
-    wikirandom::WIKIRANDOM_COMMAND,
 };
 
 use serenity::framework::standard::macros::group;
 
 #[group]
-#[commands(lang, langlist)]
+#[commands(help, lang, langlist)]
 struct General;
 
 #[group]
-#[commands(wiki, wikihelp, wikilang, wikirandom)]
+#[commands(random)]
+struct Random;
+
+#[group]
+#[commands(wiki, wikilang)]
 struct Wiki;
