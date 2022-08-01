@@ -2,10 +2,10 @@ use super::*;
 
 #[command]
 #[only_in(guilds)]
-async fn wikirandom(ctx: &Context, msg: &Message) -> CommandResult {
+async fn random(ctx: &Context, msg: &Message) -> CommandResult {
     msg.react(&ctx.http, '⏳').await?;
 
-    let command = commands::wikirandom();
+    let command = commands::random();
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
     command.try_get_matches_from(msg.content.to_clap_command("!f".to_string().clone()))?;

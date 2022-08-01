@@ -8,6 +8,7 @@ use handler::Handler;
 use utils::handle_result;
 use groups::{
   GENERAL_GROUP,
+  RANDOM_GROUP,
   WIKI_GROUP,
 };
 
@@ -56,6 +57,7 @@ let framework = StandardFramework::new()
                    .owners(owners))
         .after(handle_result)
         .group(&GENERAL_GROUP)
+        .group(&RANDOM_GROUP)
         .group(&WIKI_GROUP);
 
 let intents = GatewayIntents::GUILD_MESSAGES
