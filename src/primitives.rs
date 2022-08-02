@@ -34,12 +34,12 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Sends the wiki of something specific in the current server/guild language.")
-                .args([
-                    Arg::new("wiki")
-                        .required(true)
-                        .index(1)
-                        .help("The specific thing.")
-                ])
+            .args([
+                Arg::new("wiki")
+                    .required(true)
+                    .index(1)
+                    .help("The specific thing.")
+            ])
     }
 
     pub fn help() -> Command<'static> {
@@ -57,18 +57,18 @@ pub mod commands {
             .disable_help_subcommand(true)
             .disable_colored_help(true)
             .disable_version_flag(true)
-            .about("\nABOUT: Shows a list of NityBot commands")
-                .args([
-                    Arg::new("language")
-                        .required(true)
-                        .takes_value(true)
-                        .index(1)
-                        .help("The language which the wikiclient will use."),
-                    Arg::new("wiki")
-                        .required(true)
-                        .index(2)
-                        .help("The specific thing.")
-                ])
+            .about("\nABOUT: Sends a specific wiki in the selected language.")
+            .args([
+                Arg::new("language")
+                    .required(true)
+                    .takes_value(true)
+                    .index(1)
+                    .help("The language which the wikiclient will use."),
+                Arg::new("wiki")
+                    .required(true)
+                    .index(2)
+                    .help("The specific thing.")
+            ])
     }
 
     pub fn random() -> Command<'static> {
@@ -80,6 +80,22 @@ pub mod commands {
             .about("\nABOUT: Sends a random wiki in the current server/guild language")
     }
 
+    pub fn randomlang() -> Command<'static> {
+        Command::new("NAME: randomlang")
+            .disable_help_flag(true)
+            .disable_help_subcommand(true)
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Sends a random wiki in the selected language.")
+            .args([
+                Arg::new("language")
+                    .required(true)
+                    .takes_value(true)
+                    .index(1)
+                    .help("The language that will be used."),
+            ])
+    }
+
     pub fn lang() -> Command<'static> {
         Command::new("NAME: lang")
             .disable_help_flag(true)
@@ -87,13 +103,13 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Sets a language to a server.")
-                .args([
-                    Arg::new("language")
-                        .required(true)
-                        .takes_value(true)
-                        .index(1)
-                        .help("The language to be set."),
-                ])
+            .args([
+                Arg::new("language")
+                    .required(true)
+                    .takes_value(true)
+                    .index(1)
+                    .help("The language which the wikiclient will use."),
+            ])
     }
 
     pub fn langlist() -> Command<'static> {

@@ -6,6 +6,7 @@ use crate::commands::general::{
 
 use crate::commands::random::{
     random::RANDOM_COMMAND,
+    randomlang::RANDOMLANG_COMMAND,
 };
 
 use crate::commands::wiki::{
@@ -20,7 +21,7 @@ use serenity::framework::standard::macros::group;
 struct General;
 
 #[group]
-#[commands(random)]
+#[commands(random, randomlang)]
 struct Random;
 
 #[group]
