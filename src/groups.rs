@@ -5,8 +5,8 @@ use crate::commands::general::{
 };
 
 use crate::commands::random::{
-    random::RANDOM_COMMAND,
     randomlang::RANDOMLANG_COMMAND,
+    random::RANDOM_COMMAND,
 };
 
 use crate::commands::wiki::{

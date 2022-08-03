@@ -18,12 +18,6 @@ impl ToClapCommand for String {
     }
 }
 
-impl ToCodeBlock for String {
-    fn to_code_block(&self, t: &str) -> String {
-        format!("```{t}\n{self}```")
-    }
-}
-
 pub mod commands {
     use clap::{Arg, Command};
 
