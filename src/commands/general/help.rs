@@ -12,7 +12,14 @@ async fn help(ctx: &Context, msg: &Message) -> CommandResult {
             e.title("🔸Help Command")
             .fields(vec![
                 ("🔹Commands list:", 
-                "🔹!flanglist\n  |Shows the current language and a list of the avaiables languages.\n\n🔹!flang [language]\n  |Sets a language to a server.\n\n🔹!fwiki [search]\n  |Searches for [search] in wikipedia in the current server language.\n\n🔹!fwikilang [language] [search]\n  |Searches for [search] with [language] in wikipedia.\n\n🔹!frandom\n  |Sends a random wiki in the current server language.\n\n", true),
+                "🔹!flanglist\n  |Shows the current language and a list of the avaiables languages.
+                \n🔹!flang [language]\n  |Sets a language to a server.
+                \n🔹!fwiki [search]\n  |Sends the wiki of something specific in the current server/guild language.
+                \n🔹!fwikilang [language] [search]\n  |Sends a specific wiki in the [language] language.
+                \n🔹!frandom\n  |Sends a random wiki in the current server/guild language.
+                \n🔹!frandomlang [language]\n  |Sends a random wiki in the [language] language.
+                \n", 
+                true),
             ])
             .colour(Colour::from_rgb(91, 8, 199))           
         })

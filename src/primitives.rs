@@ -112,7 +112,7 @@ pub mod commands {
             .disable_help_subcommand(true)
             .disable_colored_help(true)
             .disable_version_flag(true)
-            .about("\nABOUT: Shows a list of the avaible languages.")
+            .about("\nABOUT: Shows the current language and a list of the avaiables languages.")
     }
 }
 
