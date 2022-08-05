@@ -1,17 +1,17 @@
-use crate::commands::general::{
-    help::HELP_COMMAND,
-    lang::LANG_COMMAND,
-    langlist::LANGLIST_COMMAND,
-};
-
-use crate::commands::random::{
-    randomlang::RANDOMLANG_COMMAND,
-    random::RANDOM_COMMAND,
-};
-
-use crate::commands::wiki::{
-    wiki::WIKI_COMMAND,
-    wikilang::WIKILANG_COMMAND,
+use crate::commands::{
+    general::{
+        help::HELP_COMMAND,
+        lang::LANG_COMMAND,
+        langlist::LANGLIST_COMMAND,
+    },
+    random::{
+        random::RANDOM_COMMAND,
+        randomlang::RANDOMLANG_COMMAND,
+    },
+    wiki::{
+        wiki::WIKI_COMMAND,
+        wikilang::WIKILANG_COMMAND,
+    },
 };
 
 use serenity::framework::standard::macros::group;
