@@ -26,6 +26,10 @@ pub async fn handle_result(
     }
 }
 
+pub async fn split_at_char(s: &str, p: char, n: usize) -> Option<(&str, &str)> {
+    s.match_indices(p).nth(n).map(|(index, _)| s.split_at(index))
+}
+
 #[macro_export]
 macro_rules! exit {
     ($exit_code:expr, $($args:tt)*) => {{

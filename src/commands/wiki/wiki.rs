@@ -50,7 +50,7 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         pre_language_url: String::from("https://"),
         post_language_url: String::from(".wikipedia.org/w/api.php"),
         language: String::from(serv_lang),
-        search_results: 5,
+        search_results: 1,
         images_results: String::from("min"),
         links_results: String::from("min"),
         categories_results: String::from("min")
@@ -62,13 +62,35 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         return Ok(())
     }
 
-    let wiki_answer = msg.reply(
-        ctx, format!("https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.", serv_lang,
-        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"), '❌')
-    ).await?;
+    let wiki_page = wikipedia::Wikipedia::page_from_title(&wiki_client, (
+        &wiki_client.search(&wiki).unwrap()[0]).to_string()).get_summary().unwrap();
+    let oof = split_at_char(wiki_page.as_ref(), ' ', 75).await;
+
+    let wiki_answer = msg.channel_id.send_message(&ctx.http, |m| {
+        m.content(format!("https://{}.wikipedia.org/wiki/{}", serv_lang,
+        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")))
+        .embed(|e| {
+            e.title(format!("{}", &wiki_client.search(&wiki).unwrap()[0]))
+            .description(
+                format!("{}...", oof.unwrap().0)
+            )
+            .fields(vec![
+                ("f", "f", true),
+            ])
+            .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
+            .colour(Colour::from_rgb(91, 8, 199))           
+        })
+    })
+    .await?;
+
     wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
 
+
+    //let wiki_answer = msg.reply(
+    //    ctx, format!("https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.", serv_lang,
+    //    &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"), '❌')
+    //).await?;
     loop {
         if let Some(reaction) = &wiki_answer
         .await_reaction(&ctx)

@@ -33,7 +33,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         pre_language_url: String::from("https://"),
         post_language_url: String::from(".wikipedia.org/w/api.php"),
         language: String::from(serv_lang),
-        search_results: 5,
+        search_results: 1,
         images_results: String::from("min"),
         links_results: String::from("min"),
         categories_results: String::from("min")
