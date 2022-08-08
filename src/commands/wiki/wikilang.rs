@@ -68,17 +68,62 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
         return Ok(());
     }
 
-    let wiki_answer = msg
-        .reply(
-            ctx,
-            format!(
-                "https://{}.wikipedia.org/wiki/{}\n react with {} to delete this answer.",
-                language,
-                &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_"),
-                '❌'
-            ),
-        )
-        .await?;
+    let wiki_page = wikipedia::Wikipedia::page_from_title(&wiki_client, (
+        &wiki_client.search(&wiki).unwrap()[0]).to_string());
+
+    let page_summary = wiki_page.get_summary().unwrap();
+    let formated_summary = split_at_char(page_summary.as_ref(), ' ', 75).await;
+
+    let mut sections = String::from("");
+    if wiki_page.get_sections().unwrap().len() >= 5 {
+        for section in &wiki_page.get_sections().unwrap()[0..5] {
+            if section.len() > 15 {
+                if section[14..15].to_string() == " " {
+                    sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                } else {
+                    sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                }
+            } else {
+                sections = format!("{}\n{}", sections, section);
+            }
+        }
+    } else {
+        for section in &wiki_page.get_sections().unwrap() {
+            if section.len() > 15 {
+                if section[14..15].to_string() == " " {
+                    sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                } else {
+                    sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                }
+            } else {
+                sections = format!("{}\n{}", sections, section);
+            }
+        }
+    }
+
+    let mut coordinates = String::from("");
+    let get_coordinates = wiki_page.get_coordinates().unwrap();
+    if let Some(_) = get_coordinates {
+        coordinates = format!("Coordinates: {}°N | {}°E", get_coordinates.unwrap().0, get_coordinates.unwrap().1);
+    }
+
+    let wiki_answer = msg.channel_id.send_message(&ctx.http, |m| {
+        m.content(format!("https://{}.wikipedia.org/wiki/{}", language,
+        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")))
+        .embed(|e| {
+            e.title(format!("{}", &wiki_client.search(&wiki).unwrap()[0]))
+            .description(
+                format!("{}\n{}...", coordinates, formated_summary.unwrap().0)
+            )
+            .fields(vec![
+                ("Few sections:", sections, true),
+            ])
+            .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
+            .colour(Colour::from_rgb(91, 8, 199))           
+        })
+    })
+    .await?;
+
     wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
 
