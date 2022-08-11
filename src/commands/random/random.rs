@@ -50,12 +50,12 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
     let wiki_page = wikipedia::Wikipedia::page_from_title(&wiki_client, (
         &wiki_client.search(&wiki).unwrap()[0]).to_string());
 
-    let page_summary = wiki_page.get_summary().unwrap();
-    let mut formated_summary = split_at_char(page_summary.as_ref(), ' ', 75).await.unwrap().0;
+    let page_content = wiki_page.get_content().unwrap();
+    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75).await.unwrap().0;
     
     for char in ['.', ',', ':', ';', '-'] {
-        if formated_summary.chars().last().unwrap() == char {
-            formated_summary = &formated_summary[..formated_summary.len() - 1]
+        if formated_content.chars().last().unwrap() == char {
+            formated_content = &formated_content[..formated_content.len() - 1]
         }
     }
 
@@ -98,7 +98,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         .embed(|e| {
             e.title(format!("{}", &wiki_client.search(&wiki).unwrap()[0]))
             .description(
-                format!("{}\n{}...", coordinates, formated_summary)
+                format!("{}\n{}...", coordinates, page_content.replace("\n\n", ""))
             )
             .fields(vec![
                 ("Few sections:", sections, true),
