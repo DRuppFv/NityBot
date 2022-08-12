@@ -51,6 +51,12 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
 
     let page_content = wiki_page.get_content().unwrap();
     let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75).await.unwrap().0;
+    
+    for char in ['.', ',', ':', ';', '-'] {
+        if formated_content.chars().last().unwrap() == char {
+            formated_content = &formated_content[..formated_content.len() - 1]
+        }
+    }
 
     let mut sections = String::from("");
     if wiki_page.get_sections().unwrap().len() >= 5 {
