@@ -8,17 +8,15 @@ async fn langlist(ctx: &Context, msg: &Message) -> CommandResult {
 
     command.try_get_matches_from(msg.content.to_clap_command("!f".to_string().clone()))?;
 
-    let database = sqlx::sqlite::SqlitePoolOptions::new().max_connections(5)
-    .connect_with(
-        sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"),
-    ).await.expect("");
+    let database = sqlx::sqlite::SqlitePoolOptions::new()
+        .max_connections(5)
+        .connect_with(sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"))
+        .await
+        .expect("");
 
-    let try_serv_lang = &sqlx::query!(
-        "SELECT lang FROM serverlang WHERE servid = ?",
-        guild_id,
-    )
-    .fetch_one(&database)
-    .await;
+    let try_serv_lang = &sqlx::query!("SELECT lang FROM serverlang WHERE servid = ?", guild_id,)
+        .fetch_one(&database)
+        .await;
 
     let serv_lang: &str = if let Ok(x) = try_serv_lang {
         &x.lang
@@ -66,7 +64,7 @@ async fn langlist(ctx: &Context, msg: &Message) -> CommandResult {
                 🇩🇪 | Deutsch - de\n🇮🇹 | Italian - it\n🇫🇷 | French - fr\n🇷🇺 | Russian - ru\n🇹🇷 | Turkish - tr\n🇳🇱 | Dutch - nl\n", true),
             ])
             .footer(|f| f.text("Choose your language with !flang [lang]."))
-            .colour(Colour::from_rgb(91, 8, 199))           
+            .colour(Colour::from_rgb(91, 8, 199))
         })
     })
     .await?;

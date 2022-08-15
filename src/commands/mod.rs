@@ -11,8 +11,8 @@ pub use crate::{
 
 pub use serenity::{
     async_trait,
-    utils::Colour,
     client::Context,
     framework::standard::{macros::command, CommandResult},
-    model::{ Timestamp, prelude::MessageId, channel::Message, id::UserId},
+    model::{channel::Message, id::UserId, prelude::MessageId, Timestamp},
+    utils::Colour,
 };

@@ -61,7 +61,7 @@ pub mod commands {
                 Arg::new("wiki")
                     .required(true)
                     .index(2)
-                    .help("The specific thing.")
+                    .help("The specific thing."),
             ])
     }
 
@@ -81,13 +81,11 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Sends a random wiki in the selected language.")
-            .args([
-                Arg::new("language")
-                    .required(true)
-                    .takes_value(true)
-                    .index(1)
-                    .help("The language that will be used."),
-            ])
+            .args([Arg::new("language")
+                .required(true)
+                .takes_value(true)
+                .index(1)
+                .help("The language that will be used.")])
     }
 
     pub fn lang() -> Command<'static> {
@@ -97,13 +95,11 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Sets a language to a server.")
-            .args([
-                Arg::new("language")
-                    .required(true)
-                    .takes_value(true)
-                    .index(1)
-                    .help("The language which the wikiclient will use."),
-            ])
+            .args([Arg::new("language")
+                .required(true)
+                .takes_value(true)
+                .index(1)
+                .help("The language which the wikiclient will use.")])
     }
 
     pub fn langlist() -> Command<'static> {
@@ -115,4 +111,3 @@ pub mod commands {
             .about("\nABOUT: Shows the current language and a list of the avaiables languages.")
     }
 }
-

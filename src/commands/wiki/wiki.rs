@@ -7,17 +7,15 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     let command = commands::wiki();
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
-    let database = sqlx::sqlite::SqlitePoolOptions::new().max_connections(5)
-    .connect_with(
-        sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"),
-    ).await.expect("");
+    let database = sqlx::sqlite::SqlitePoolOptions::new()
+        .max_connections(5)
+        .connect_with(sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"))
+        .await
+        .expect("");
 
-    let try_serv_lang = &sqlx::query!(
-        "SELECT lang FROM serverlang WHERE servid = ?",
-        guild_id,
-    )
-    .fetch_one(&database)
-    .await;
+    let try_serv_lang = &sqlx::query!("SELECT lang FROM serverlang WHERE servid = ?", guild_id,)
+        .fetch_one(&database)
+        .await;
 
     let serv_lang: &str = if let Ok(x) = try_serv_lang {
         &x.lang
@@ -27,7 +25,14 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
 
     let mut vec_wiki: Vec<String> = Vec::new();
     let mut string_wiki: String = String::new();
-    for (argnum, arg) in msg.content.replace("!f".clone(), "").trim().split(' ').map(ToString::to_string).enumerate() {
+    for (argnum, arg) in msg
+        .content
+        .replace("!f".clone(), "")
+        .trim()
+        .split(' ')
+        .map(ToString::to_string)
+        .enumerate()
+    {
         if argnum != 0 {
             if argnum == 1 {
                 string_wiki = format!("{}", arg)
@@ -53,21 +58,26 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         search_results: 1,
         images_results: String::from("min"),
         links_results: String::from("min"),
-        categories_results: String::from("min")
+        categories_results: String::from("min"),
     };
 
     if &wiki_client.search(&wiki).unwrap().len() == &0 {
         msg.react(&ctx.http, '❔').await?;
         msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
-        return Ok(())
+        return Ok(());
     }
 
-    let wiki_page = wikipedia::Wikipedia::page_from_title(&wiki_client, (
-        &wiki_client.search(&wiki).unwrap()[0]).to_string());
+    let wiki_page = wikipedia::Wikipedia::page_from_title(
+        &wiki_client,
+        (&wiki_client.search(&wiki).unwrap()[0]).to_string(),
+    );
 
     let page_content = wiki_page.get_content().unwrap();
-    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75).await.unwrap().0;
-    
+    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75)
+        .await
+        .unwrap()
+        .0;
+
     for char in ['.', ',', ':', ';', '-'] {
         if formated_content.chars().last().unwrap() == char {
             formated_content = &formated_content[..formated_content.len() - 1]
@@ -104,47 +114,55 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     let mut coordinates = String::from("");
     let get_coordinates = wiki_page.get_coordinates().unwrap();
     if let Some(_) = get_coordinates {
-        coordinates = format!("Coordinates: {}°N | {}°E", get_coordinates.unwrap().0, get_coordinates.unwrap().1);
+        coordinates = format!(
+            "Coordinates: {}°N | {}°E",
+            get_coordinates.unwrap().0,
+            get_coordinates.unwrap().1
+        );
     }
 
-    let wiki_answer = msg.channel_id.send_message(&ctx.http, |m| {
-        m.content(format!("https://{}.wikipedia.org/wiki/{}", serv_lang,
-        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")))
-        .embed(|e| {
-            e.title(format!("{}", &wiki_client.search(&wiki).unwrap()[0]))
-            .description(
-                format!("{}\n{}...", coordinates, formated_content.replace("\n\n", "").replace("==", "**"))
-            )
-            .fields(vec![
-                ("Few sections:", sections, true),
-            ])
-            .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
-            .colour(Colour::from_rgb(91, 8, 199))           
+    let wiki_answer = msg
+        .channel_id
+        .send_message(&ctx.http, |m| {
+            m.content(format!(
+                "https://{}.wikipedia.org/wiki/{}",
+                serv_lang,
+                &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")
+            ))
+            .embed(|e| {
+                e.title(format!("{}", &wiki_page.get_title().unwrap()))
+                    .description(format!(
+                        "{}\n{}...",
+                        coordinates,
+                        formated_content.replace("\n\n", "").replace("==", "**")
+                    ))
+                    .fields(vec![("Few sections:", sections, true)])
+                    .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
+                    .colour(Colour::from_rgb(91, 8, 199))
+            })
         })
-    })
-    .await?;
+        .await?;
 
     wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
 
     loop {
         if let Some(reaction) = &wiki_answer
-        .await_reaction(&ctx)
-        .author_id(msg.author.id)
-        .await {
+            .await_reaction(&ctx)
+            .author_id(msg.author.id)
+            .await
+        {
             let emoji = &reaction.as_inner_ref().emoji;
 
             let _ = match emoji.as_data().as_str() {
                 "❌" => {
                     wiki_answer.delete(&ctx.http).await?;
-                    break
-                },
-                _ => {
-                    
+                    break;
                 }
+                _ => {}
             };
         }
     }
-    
+
     Ok(())
 }

@@ -21,10 +21,10 @@ async fn help(ctx: &Context, msg: &Message) -> CommandResult {
                 \n", 
                 true),
             ])
-            .colour(Colour::from_rgb(91, 8, 199))           
+            .colour(Colour::from_rgb(91, 8, 199))
         })
     })
     .await?;
-    
+
     Ok(())
 }

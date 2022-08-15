@@ -7,8 +7,8 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
 
     let command = commands::randomlang();
 
-    let matches = command.try_get_matches_from(msg.content.to_clap_command(
-    "!f".to_string().clone()))?;
+    let matches =
+        command.try_get_matches_from(msg.content.to_clap_command("!f".to_string().clone()))?;
 
     let language = matches.value_of("language").unwrap();
 
@@ -22,7 +22,8 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
         };
     }
     if !there_is {
-        msg.reply_ping(&ctx.http, "❔ | No language with that abbreviation found.").await?;
+        msg.reply_ping(&ctx.http, "❔ | No language with that abbreviation found.")
+            .await?;
         msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
         return Ok(());
     }
@@ -35,7 +36,7 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
         search_results: 1,
         images_results: String::from("min"),
         links_results: String::from("min"),
-        categories_results: String::from("min")
+        categories_results: String::from("min"),
     };
 
     let wiki = &wiki_client.random().unwrap().unwrap();
@@ -43,15 +44,20 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
     if &wiki_client.search(&wiki).unwrap().len() == &0 {
         msg.react(&ctx.http, '❔').await?;
         msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
-        return Ok(())
+        return Ok(());
     }
 
-    let wiki_page = wikipedia::Wikipedia::page_from_title(&wiki_client, (
-        &wiki_client.search(&wiki).unwrap()[0]).to_string());
+    let wiki_page = wikipedia::Wikipedia::page_from_title(
+        &wiki_client,
+        (&wiki_client.search(&wiki).unwrap()[0]).to_string(),
+    );
 
     let page_content = wiki_page.get_content().unwrap();
-    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75).await.unwrap().0;
-    
+    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75)
+        .await
+        .unwrap()
+        .0;
+
     for char in ['.', ',', ':', ';', '-'] {
         if formated_content.chars().last().unwrap() == char {
             formated_content = &formated_content[..formated_content.len() - 1]
@@ -88,44 +94,52 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
     let mut coordinates = String::from("");
     let get_coordinates = wiki_page.get_coordinates().unwrap();
     if let Some(_) = get_coordinates {
-        coordinates = format!("Coordinates: {}°N | {}°E", get_coordinates.unwrap().0, get_coordinates.unwrap().1);
+        coordinates = format!(
+            "Coordinates: {}°N | {}°E",
+            get_coordinates.unwrap().0,
+            get_coordinates.unwrap().1
+        );
     }
 
-    let wiki_answer = msg.channel_id.send_message(&ctx.http, |m| {
-        m.content(format!("https://{}.wikipedia.org/wiki/{}", language,
-        &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")))
-        .embed(|e| {
-            e.title(format!("{}", &wiki_client.search(&wiki).unwrap()[0]))
-            .description(
-                format!("{}\n{}...", coordinates, formated_content.replace("\n\n", "").replace("==", "**"))
-            )
-            .fields(vec![
-                ("Few sections:", sections, true),
-            ])
-            .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
-            .colour(Colour::from_rgb(91, 8, 199))           
+    let wiki_answer = msg
+        .channel_id
+        .send_message(&ctx.http, |m| {
+            m.content(format!(
+                "https://{}.wikipedia.org/wiki/{}",
+                language,
+                &wiki_client.search(&wiki).unwrap()[0].replace(" ", "_")
+            ))
+            .embed(|e| {
+                e.title(format!("{}", &wiki_page.get_title().unwrap()))
+                    .description(format!(
+                        "{}\n{}...",
+                        coordinates,
+                        formated_content.replace("\n\n", "").replace("==", "**")
+                    ))
+                    .fields(vec![("Few sections:", sections, true)])
+                    .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
+                    .colour(Colour::from_rgb(91, 8, 199))
+            })
         })
-    })
-    .await?;
+        .await?;
 
     wiki_answer.react(&ctx.http, '❌').await?;
     msg.delete_reaction_emoji(&ctx.http, '⏳').await?;
 
     loop {
         if let Some(reaction) = &wiki_answer
-        .await_reaction(&ctx)
-        .author_id(msg.author.id)
-        .await {
+            .await_reaction(&ctx)
+            .author_id(msg.author.id)
+            .await
+        {
             let emoji = &reaction.as_inner_ref().emoji;
 
             let _ = match emoji.as_data().as_str() {
                 "❌" => {
                     wiki_answer.delete(&ctx.http).await?;
-                    break
-                },
-                _ => {
-                    
+                    break;
                 }
+                _ => {}
             };
         }
     }
