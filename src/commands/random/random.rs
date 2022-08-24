@@ -62,7 +62,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         }
     }
 
-    let mut sections = String::from("");
+    let mut sections = String::new();
     if wiki_page.get_sections().unwrap().len() >= 5 {
         for section in &wiki_page.get_sections().unwrap()[0..5] {
             if section.len() > 15 {
@@ -89,7 +89,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         }
     }
 
-    let mut coordinates = String::from("");
+    let mut coordinates = String::new();
     let get_coordinates = wiki_page.get_coordinates().unwrap();
     if let Some(_) = get_coordinates {
         coordinates = format!(

@@ -127,7 +127,7 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
         }
     }
 
-    let mut coordinates = String::from("");
+    let mut coordinates = String::new();
     let get_coordinates = wiki_page.get_coordinates().unwrap();
     if let Some(_) = get_coordinates {
         coordinates = format!(
@@ -150,7 +150,11 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
                     .description(format!(
                         "{}\n{}...",
                         coordinates,
-                        formated_content.replace("\n\n", "").replace("==", "**")
+                        if &formated_content.replace("\n\n", "").matches("owo").count()%2 == 0 {
+                            formated_content.replace("\n\n", "").replace("==", "**")
+                        } else {
+                            formated_content.replace("\n\n", "")
+                        }
                     ))
                     .fields(vec![("Few sections:", sections, true)])
                     .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))

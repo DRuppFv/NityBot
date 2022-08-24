@@ -111,7 +111,7 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         }
     }
 
-    let mut coordinates = String::from("");
+    let mut coordinates = String::new();
     let get_coordinates = wiki_page.get_coordinates().unwrap();
     if let Some(_) = get_coordinates {
         coordinates = format!(
