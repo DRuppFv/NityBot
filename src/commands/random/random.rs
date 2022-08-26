@@ -112,7 +112,11 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
                     .description(format!(
                         "{}\n{}...",
                         coordinates,
-                        page_content.replace("\n\n", "")
+                        if &formated_content.replace("\n\n", "").matches("owo").count()%2 == 0 {
+                            formated_content.replace("\n\n", "").replace("==", "**")
+                        } else {
+                            formated_content.replace("\n\n", "")
+                        }
                     ))
                     .fields(vec![("Few sections:", sections, true)])
                     .footer(|f| f.text(format!("React with {} to delete this answer.", '❌')))
