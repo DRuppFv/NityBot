@@ -68,10 +68,12 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
     if wiki_page.get_sections().unwrap().len() >= 5 {
         for section in &wiki_page.get_sections().unwrap()[0..5] {
             if section.len() > 15 {
-                if section[14..15].to_string() == " " {
-                    sections = format!("{}\n{}...", sections, section[0..14].to_string());
-                } else {
-                    sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                for char in [" ", "-", "&", "=", "_", "(", ")", "!", "[", "]"] {
+                    if section[14..15].to_string() == char {
+                        sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                    } else {
+                        sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                    }
                 }
             } else {
                 sections = format!("{}\n{}", sections, section);
@@ -80,10 +82,12 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
     } else {
         for section in &wiki_page.get_sections().unwrap() {
             if section.len() > 15 {
-                if section[14..15].to_string() == " " {
-                    sections = format!("{}\n{}...", sections, section[0..14].to_string());
-                } else {
-                    sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                for char in [" ", "-", "&", "=", "_", "(", ")", "!", "[", "]"] {
+                    if section[14..15].to_string() == char {
+                        sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                    } else {
+                        sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                    }
                 }
             } else {
                 sections = format!("{}\n{}", sections, section);
