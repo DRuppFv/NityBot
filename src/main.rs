@@ -27,15 +27,15 @@ async fn main() {
     };
 
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
-    let http = Http::new(&token);
+    let http_token = Http::new(&token);
 
     //client & framework
-    let (owners, bot_id) = match http.get_current_application_info().await {
+    let (owners, bot_id) = match http_token.get_current_application_info().await {
         Ok(info) => {
             let mut owners = HashSet::new();
             owners.insert(info.owner.id);
 
-            match http.get_current_user().await {
+            match http_token.get_current_user().await {
                 Ok(bot_id) => (owners, bot_id.id),
                 Err(why) => exit!(1, "Could not access the bot id: {:?}", why),
             }

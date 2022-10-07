@@ -56,7 +56,7 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         .unwrap()
         .0;
 
-    for char in [' ', '.', ',', ':', ';', '-', '+', '='] {
+    for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
         if formated_content.chars().last().unwrap() == char {
             formated_content = &formated_content[..formated_content.len() - 1]
         }
