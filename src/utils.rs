@@ -35,6 +35,12 @@ pub async fn split_at_char(s: &str, p: char, n: usize) -> Option<(&str, &str)> {
         .map(|(index, _)| s.split_at(index))
 }
 
+pub fn create_database() -> impl std::future::Future<Output = Result<sqlx::Pool<sqlx::Sqlite>, sqlx::Error>> {
+    sqlx::sqlite::SqlitePoolOptions::new()
+        .max_connections(5)
+        .connect_with(sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"))
+}
+
 #[macro_export]
 macro_rules! exit {
     ($exit_code:expr, $($args:tt)*) => {{

@@ -6,7 +6,7 @@ pub use wikipedia::Wikipedia;
 
 pub use crate::{
     primitives::{commands, ToClapCommand, DEFAULT_LANGUAGE},
-    utils::{handle_result, split_at_char},
+    utils::{handle_result, split_at_char, create_database},
 };
 
 pub use serenity::{

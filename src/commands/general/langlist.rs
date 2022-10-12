@@ -8,11 +8,7 @@ async fn langlist(ctx: &Context, msg: &Message) -> CommandResult {
 
     command.try_get_matches_from(msg.content.to_clap_command("!f".to_string().clone()))?;
 
-    let database = sqlx::sqlite::SqlitePoolOptions::new()
-        .max_connections(5)
-        .connect_with(sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"))
-        .await
-        .expect("");
+    let database = create_database().await.expect("");
 
     let try_serv_lang = &sqlx::query!("SELECT lang FROM serverlang WHERE servid = ?", guild_id,)
         .fetch_one(&database)

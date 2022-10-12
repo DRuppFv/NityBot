@@ -7,12 +7,8 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     let command = commands::wiki();
     let guild_id = msg.guild_id.unwrap().0 as f64;
 
-    let database = sqlx::sqlite::SqlitePoolOptions::new()
-        .max_connections(5)
-        .connect_with(sqlx::sqlite::SqliteConnectOptions::new().filename("languages.db"))
-        .await
-        .expect("");
-
+    let database = create_database().await.expect("");
+    
     let try_serv_lang = &sqlx::query!("SELECT lang FROM serverlang WHERE servid = ?", guild_id,)
         .fetch_one(&database)
         .await;
