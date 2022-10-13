@@ -53,42 +53,48 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
     );
 
     let page_content = wiki_page.get_content().unwrap();
-    let mut formated_content = split_at_char(page_content.as_ref(), ' ', 75)
+    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', 75)
         .await
         .unwrap()
         .0;
 
     for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
-        if formated_content.chars().last().unwrap() == char {
-            formated_content = &formated_content[..formated_content.len() - 1]
+        if formatted_content.chars().last().unwrap() == char {
+            formatted_content = &formatted_content[..formatted_content.len() - 1]
         }
     }
 
     let mut sections = String::new();
     if wiki_page.get_sections().unwrap().len() >= 5 {
+        let mut formatted_section = String::from("");
         for section in &wiki_page.get_sections().unwrap()[0..5] {
             if section.len() > 15 {
                 for char in [" ", "-", "&", "=", "_", "(", ")", "!", "[", "]"] {
-                    if section[14..15].to_string() == char {
-                        sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                    if &section[14..15].to_string() == char {
+                        formatted_section = format!("{}", section[..14].to_string());
+                        break;
                     } else {
-                        sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                        formatted_section = format!("{}", section[..15].to_string());
                     }
                 }
+                sections = format!("{}\n{}...", sections, formatted_section);
             } else {
                 sections = format!("{}\n{}", sections, section);
             }
         }
     } else {
+        let mut formatted_section = String::from("");
         for section in &wiki_page.get_sections().unwrap() {
             if section.len() > 15 {
                 for char in [" ", "-", "&", "=", "_", "(", ")", "!", "[", "]"] {
-                    if section[14..15].to_string() == char {
-                        sections = format!("{}\n{}...", sections, section[0..14].to_string());
+                    if &section[14..15].to_string() == char {
+                        formatted_section = format!("{}", section[..14].to_string());
+                        break;
                     } else {
-                        sections = format!("{}\n{}...", sections, section[0..15].to_string());
+                        formatted_section = format!("{}", section[..15].to_string());
                     }
                 }
+                sections = format!("{}\n{}...", sections, formatted_section);
             } else {
                 sections = format!("{}\n{}", sections, section);
             }
@@ -118,10 +124,10 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
                     .description(format!(
                         "{}\n{}...",
                         coordinates,
-                        if &formated_content.replace("\n\n", "").matches("owo").count()%2 == 0 {
-                            formated_content.replace("\n\n", "").replace("==", "**")
+                        if &formatted_content.replace("\n\n", "").matches("owo").count() % 2 == 0 {
+                            formatted_content.replace("\n\n", "").replace("==", "**")
                         } else {
-                            formated_content.replace("\n\n", "")
+                            formatted_content.replace("\n\n", "")
                         }
                     ))
                     .fields(vec![("Few sections:", sections, true)])
