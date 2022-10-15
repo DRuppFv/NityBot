@@ -89,7 +89,12 @@ async fn wikilang(ctx: &Context, msg: &Message) -> CommandResult {
     );
 
     let page_content = wiki_page.get_content().unwrap();
-    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', 75)
+    let spaces = if page_content.matches(" ").count() > 75 {
+        page_content.matches(" ").count()
+    } else {
+        75
+    };
+    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces)
         .await
         .unwrap()
         .0;
