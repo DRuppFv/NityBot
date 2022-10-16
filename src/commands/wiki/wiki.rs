@@ -69,12 +69,12 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
     );
 
     let page_content = wiki_page.get_content().unwrap();
-    let spaces = if page_content.matches(" ").count() > 75 {
+    let spaces = if page_content.matches(" ").count() < 76 {
         page_content.matches(" ").count()
     } else {
-        75
+        76
     };
-    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces)
+    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces - 1)
         .await
         .unwrap()
         .0;

@@ -46,16 +46,16 @@ async fn random(ctx: &Context, msg: &Message) -> CommandResult {
         (&wiki_client.search(&wiki).unwrap()[0]).to_string(),
     );
 
-    let page_content = wiki_page.get_content().unwrap();
-    let spaces = if page_content.matches(" ").count() > 75 {
-        page_content.matches(" ").count()
-    } else {
-        75
-    };
-    let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces)
-        .await
-        .unwrap()
-        .0;
+let page_content = wiki_page.get_content().unwrap();
+let spaces = if page_content.matches(" ").count() < 76 {
+    page_content.matches(" ").count()
+} else {
+    76
+};
+let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces - 1)
+    .await
+    .unwrap()
+    .0;
 
     for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
         if formatted_content.chars().last().unwrap() == char {
