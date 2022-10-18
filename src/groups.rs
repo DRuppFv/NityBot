@@ -1,7 +1,7 @@
 use crate::commands::{
     general::{help::HELP_COMMAND, lang::LANG_COMMAND, langlist::LANGLIST_COMMAND},
     random::{random::RANDOM_COMMAND, randomlang::RANDOMLANG_COMMAND},
-    wiki::{wiki::WIKI_COMMAND, wikilang::WIKILANG_COMMAND},
+    wiki::{wiki::WIKI_COMMAND, wikilang::WIKILANG_COMMAND, wikiuser::WIKIUSER_COMMAND},
 };
 
 use serenity::framework::standard::macros::group;
@@ -15,5 +15,5 @@ struct General;
 struct Random;
 
 #[group]
-#[commands(wiki, wikilang)]
+#[commands(wiki, wikilang, wikiuser)]
 struct Wiki;

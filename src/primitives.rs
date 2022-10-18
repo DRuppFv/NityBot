@@ -65,6 +65,22 @@ pub mod commands {
             ])
     }
 
+    pub fn wikiuser() -> Command<'static> {
+        Command::new("NAME: wikiuser")
+        .disable_help_flag(true)
+        .disable_help_subcommand(true)
+        .disable_colored_help(true)
+        .disable_version_flag(true)
+        .about("\nABOUT: Sends information about an specific user.")
+        .args([
+            Arg::new("mention")
+                .required(true)
+                .takes_value(true)
+                .index(1)
+                .help("The user."),
+        ])
+    }
+
     pub fn random() -> Command<'static> {
         Command::new("NAME: random")
             .disable_help_flag(true)

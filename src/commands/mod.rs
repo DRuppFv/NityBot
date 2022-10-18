@@ -13,6 +13,6 @@ pub use serenity::{
     async_trait,
     client::Context,
     framework::standard::{macros::command, CommandResult},
-    model::{channel::Message, id::UserId, prelude::MessageId, Timestamp},
+    model::{mention::Mention, channel::Message, id::UserId, prelude::MessageId, Timestamp},
     utils::Colour,
 };

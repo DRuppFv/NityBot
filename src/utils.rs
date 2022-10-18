@@ -23,7 +23,10 @@ pub async fn handle_result(
                     .ok();
             }
             _ => {
-                message.reply(&ctx.http,"❕ | Undefined error. If you are seeing this, please, tell me on https://github.com/DRuppFv/NityBot.").await.ok();
+                message
+                .reply(&ctx.http,"❕ | Undefined error. If you are seeing this, please, tell me on https://github.com/DRuppFv/NityBot.")
+                .await
+                .ok();
             }
         }
     }
