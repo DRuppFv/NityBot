@@ -34,24 +34,26 @@ async fn wikiuser(ctx: &Context, msg: &Message) -> CommandResult {
         
     let user_avatar = &user.avatar_url().unwrap();
 
+    let member = msg.guild_id.unwrap().member(&ctx.http, &user.id).await?;
+
     let _ = msg
         .channel_id
         .send_message(&ctx.http, |m| {
             m.content(format!(
-                ""                       //content
+                "cont"                       //content
             ))
             .embed(|e| {
-                e.title(format!(""))                   //title
+                e.title(format!("tit"))                   //title
                 .author(|a: &mut serenity::builder::CreateEmbedAuthor|
                 a.icon_url(user_avatar)
                 .name(user_nick_in))
                 .thumbnail(user_avatar)
                 .description(format!(
-                    ""                      //description
+                    "desc"                      //description
                 ))
                 .fields(vec![
-                    ("", "", true),   //fields
-                    ("", "", true)
+                    ("Joined discord:", format!("<t:{}:R>", member.joined_at.unwrap().unix_timestamp()), true),   //fields
+                    ("Joined server:", format!("<t:{}:R>", user.created_at().unix_timestamp()), true)
                     ])
                 .footer(|f| 
                 f.icon_url(user_avatar)
