@@ -45,15 +45,25 @@ async fn wikiuser(ctx: &Context, msg: &Message) -> CommandResult {
             .embed(|e| {
                 e.title(format!("tit"))                   //title
                 .author(|a: &mut serenity::builder::CreateEmbedAuthor|
-                a.icon_url(user_avatar)
+                a.icon_url(
+                if let Some(x) = member.avatar_url(){
+                    x
+                } else {
+                    user_avatar.to_string()
+                })
                 .name(user_nick_in))
-                .thumbnail(user_avatar)
+                .thumbnail(
+            if let Some(x) = member.avatar_url(){
+                    x
+                } else {
+                    user_avatar.to_string()
+                })
                 .description(format!(
                     "desc"                      //description
                 ))
                 .fields(vec![
-                    ("Joined discord:", format!("<t:{}:R>", member.joined_at.unwrap().unix_timestamp()), true),   //fields
-                    ("Joined server:", format!("<t:{}:R>", user.created_at().unix_timestamp()), true)
+                    ("Joined discord:", format!("<t:{}:R>", user.created_at().unix_timestamp()), true),   //fields
+                    ("Joined server:", format!("<t:{}:R>", member.joined_at.unwrap().unix_timestamp()), true)
                     ])
                 .footer(|f| 
                 f.icon_url(user_avatar)
