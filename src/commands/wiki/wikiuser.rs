@@ -28,13 +28,21 @@ async fn wikiuser(ctx: &Context, msg: &Message) -> CommandResult {
         return Ok(());
     };
 
+    let member = msg.guild_id.unwrap().member(&ctx.http, &user.id).await?;
+
+    let mut fields = vec![
+        ("Joined discord:", format!("<t:{}:R>", user.created_at().unix_timestamp()), true),   //fields
+        ("Joined server:", format!("<t:{}:R>", member.joined_at.unwrap().unix_timestamp()), true),
+    ];
+
+    if let Some(x) = member.premium_since {
+        fields.push(("Boosting since:", format!("<t:{}:R>", x.unix_timestamp()), true))
+    }
 
     let user_nick_in = user.nick_in(&ctx.http, msg.guild_id.unwrap()).await
         .unwrap_or(user.name.to_string());
         
     let user_avatar = &user.avatar_url().unwrap();
-
-    let member = msg.guild_id.unwrap().member(&ctx.http, &user.id).await?;
 
     let _ = msg
         .channel_id
@@ -61,10 +69,9 @@ async fn wikiuser(ctx: &Context, msg: &Message) -> CommandResult {
                 .description(format!(
                     "desc"                      //description
                 ))
-                .fields(vec![
-                    ("Joined discord:", format!("<t:{}:R>", user.created_at().unix_timestamp()), true),   //fields
-                    ("Joined server:", format!("<t:{}:R>", member.joined_at.unwrap().unix_timestamp()), true)
-                    ])
+                .fields(
+                    fields
+                )
                 .footer(|f| 
                 f.icon_url(user_avatar)
                 .text(user.tag()))
