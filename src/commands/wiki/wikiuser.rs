@@ -42,36 +42,17 @@ async fn wikiuser(ctx: &Context, msg: &Message) -> CommandResult {
     let user_nick_in = user.nick_in(&ctx.http, msg.guild_id.unwrap()).await
         .unwrap_or(user.name.to_string());
         
-    let user_avatar = &user.avatar_url().unwrap();
+    let user_avatar = &user.face();
 
     let _ = msg
         .channel_id
         .send_message(&ctx.http, |m| {
-            m.content(format!(
-                "cont"                       //content
-            ))
-            .embed(|e| {
-                e.title(format!("tit"))                   //title
-                .author(|a: &mut serenity::builder::CreateEmbedAuthor|
-                a.icon_url(
-                if let Some(x) = member.avatar_url(){
-                    x
-                } else {
-                    user_avatar.to_string()
-                })
+            m.embed(|e| {
+                e.author(|a: &mut serenity::builder::CreateEmbedAuthor|
+                a.icon_url(member.face())
                 .name(user_nick_in))
-                .thumbnail(
-            if let Some(x) = member.avatar_url(){
-                    x
-                } else {
-                    user_avatar.to_string()
-                })
-                .description(format!(
-                    "desc"                      //description
-                ))
-                .fields(
-                    fields
-                )
+                .thumbnail(member.face())
+                .fields(fields)
                 .footer(|f| 
                 f.icon_url(user_avatar)
                 .text(user.tag()))
