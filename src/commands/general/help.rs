@@ -16,6 +16,7 @@ async fn help(ctx: &Context, msg: &Message) -> CommandResult {
 🔹!flang [language]\n  |Sets a language to a server.
 🔹!fwiki [search]\n  |Sends the wiki of something specific in the current server/guild language.
 🔹!fwikilang [language] [search]\n  |Sends a specific wiki in the [language] language.
+🔹!fwikiuser [user]\n  |Sends information about [user].
 🔹!frandom\n  |Sends a random wiki in the current server/guild language.
 🔹!frandomlang [language]\n  |Sends a random wiki in the [language] language.
 ", 

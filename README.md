@@ -8,6 +8,7 @@ ReadMe is still being worked on.
 + lang | Sets a language to a server.
 + wiki | Sends the wiki of something specific in the current server/guild language.
 + wikilang | Sends a specific wiki in the chosen language.
++ wikiuser | Sends information about the specified user. 
 + random | Sends a random wiki in the current server/guild language.
 + randomlang | Sends a random wiki in the chosen language.
 
