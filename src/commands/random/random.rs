@@ -57,11 +57,10 @@ let mut formatted_content = split_at_char(page_content.as_ref(), ' ', spaces - 1
     .unwrap()
     .0;
 
-    for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
-        if formatted_content.chars().last().unwrap() == char {
-            formatted_content = &formatted_content[..formatted_content.len() - 1]
-        }
+    if !formatted_content.chars().last().unwrap().is_alphabetic() {
+        formatted_content = &formatted_content[..formatted_content.len() - 1]
     }
+
 
     let mut sections = String::new();
     if wiki_page.get_sections().unwrap().len() >= 5 {

@@ -63,10 +63,8 @@ async fn randomlang(ctx: &Context, msg: &Message) -> CommandResult {
         .unwrap()
         .0;
 
-    for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
-        if formatted_content.chars().last().unwrap() == char {
-            formatted_content = &formatted_content[..formatted_content.len() - 1]
-        }
+    if !formatted_content.chars().last().unwrap().is_alphabetic() {
+        formatted_content = &formatted_content[..formatted_content.len() - 1]
     }
 
     let mut sections = String::new();

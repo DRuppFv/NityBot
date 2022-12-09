@@ -79,11 +79,10 @@ async fn wiki(ctx: &Context, msg: &Message) -> CommandResult {
         .unwrap()
         .0;
 
-    for char in [' ', '.', ',', ':', ';', '-', '+', '=', '(', ')'] {
-        if formatted_content.chars().last().unwrap() == char {
+        if !formatted_content.chars().last().unwrap().is_alphabetic() {
             formatted_content = &formatted_content[..formatted_content.len() - 1]
         }
-    }
+    
 
     let mut sections = String::from("");
     if wiki_page.get_sections().unwrap().len() >= 5 {
